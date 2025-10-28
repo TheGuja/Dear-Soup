@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { cedarville_cursive } from "./ui/fonts";
+import SideNav from "./ui/home/sidenav";
 
 export default function Home() {
   return (
