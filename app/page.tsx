@@ -4,7 +4,8 @@ import SideNav from "./ui/home/sidenav";
 export default function Home() {
   return (
     <div>
-      <h1>Dear Soup</h1>
+      {/* <h1>Dear Soup</h1> */}
+      <SideNav />
     </div>
     
   )
