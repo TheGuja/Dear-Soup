@@ -20,7 +20,7 @@ export default function Home() {
 
       {/* Scroll target section */}
       <section className="min-h-screen flex items-center justify-center bg-white text-black">
-        <h2 className="text-4xl font-semibold text-center">Welcome to the next course</h2>
+        <h2 className="text-4xl font-semibold text-center">Welcome to the next Soup</h2>
       </section>
     </div>    
   );
