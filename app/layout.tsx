@@ -16,30 +16,16 @@ export const metadata: Metadata = {
   description: "For Soup",
 };
 
-// export default function RootLayout({
-//   children,
-// }: Readonly<{
-//   children: React.ReactNode;
-// }>) {
-//   return (
-//     <html lang="en">
-//       <body
-//         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-//       >
-//         {children}
-//       </body>
-//     </html>
-//   );
-// }
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${cedarville_cursive.className} antialiased`}>{children}</body>
+    <html lang="en" className="w-full h-full">
+      <body className={`w-full h-full ${cedarville_cursive.className} antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
