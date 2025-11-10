@@ -1,11 +1,14 @@
 'use server'
 
 import { createClient } from "@/utils/supabase/server"
+import { getCurrentUser } from "@/utils/utils"
 
 export async function getJournalEntries() {
     const supabase =   await createClient()
 
-    const { data, error } = await supabase.rpc('get_shared_journal_content');
+    const currentUserID = await getCurrentUser()
+
+    const { data, error } = await supabase.rpc('get_shared_journal_content', {p_user_id: currentUserID});
 
     console.log(data);
 };

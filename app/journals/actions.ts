@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
+import { getCurrentUser } from '@/utils/utils';
 
 export async function shareJournal(formData: FormData) {
     const supabase = await createClient();
@@ -32,16 +33,4 @@ export async function shareJournal(formData: FormData) {
             throw error;
         }
     };
-};
-
-export async function getCurrentUser() {
-    const supabase = await createClient();
-
-    const { data: {user}, error } = await supabase.auth.getUser();
-
-    if (error) {
-        throw error;
-    }
-
-    return user?.id;
 };
