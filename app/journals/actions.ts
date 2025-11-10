@@ -1,0 +1,47 @@
+'use server'
+
+import { createClient } from '@/utils/supabase/server'
+
+export async function shareJournal(formData: FormData) {
+    const supabase = await createClient();
+
+    const text = formData.get('journal-text')
+    const sharedUser = formData.get('share')
+
+    if (typeof text !== 'string' || typeof sharedUser !== 'string') {
+        throw new Error("Expected string form values");
+    }
+
+    const retrievedData: { text: string; sharedUser : string} = {
+        text, sharedUser,
+    }
+
+    console.log("Starting fetch")
+    const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(), supabase.from("users").select("id").eq("email", retrievedData.sharedUser).single()]);
+    console.log("Completed")
+
+    if (sharedUserID.error) {
+        console.error("Failed to find the user: ", sharedUserID.error);
+        throw sharedUserID.error;
+    } else {
+        // console.log('Retrieved user:', sharedUserID.data.id);
+        // console.log('Owner id:', currentUserID)
+        const { error } = await supabase.from('journals').insert({ content: retrievedData.text, owner_id: currentUserID, other_id: sharedUserID.data.id})
+        
+        if (error) {
+            throw error;
+        }
+    };
+};
+
+export async function getCurrentUser() {
+    const supabase = await createClient();
+
+    const { data: {user}, error } = await supabase.auth.getUser();
+
+    if (error) {
+        throw error;
+    }
+
+    return user?.id;
+};

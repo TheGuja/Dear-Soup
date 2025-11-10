@@ -1,22 +1,21 @@
 "use client"
 
-import { useState } from "react";
 import { login, signup } from "./actions";
 
 export default function Page() {
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    // const [username, setUsername] = useState("")
+    // const [password, setPassword] = useState("")
 
-    const handleLogin = () => {
-        console.log("Username:", username);
-        console.log("Password:", password);
+    // const handleLogin = () => {
+    //     console.log("Username:", username);
+    //     console.log("Password:", password);
         
-        if (username === "admin" && password === "1234") {
-            alert("Login successful!");
-        } else {
-            alert("Invalid credentials");
-        }
-    };
+    //     if (username === "admin" && password === "1234") {
+    //         alert("Login successful!");
+    //     } else {
+    //         alert("Invalid credentials");
+    //     }
+    // };
 
     return (
     <div className="min-h-screen">
