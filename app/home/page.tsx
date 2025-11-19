@@ -1,6 +1,5 @@
 import SideNav from "../ui/home/sidenav";
 import { getJournalEntries } from "./actions";
-import { getCurrentUser } from "@/utils/utils";
 
 export default function Page() {
     getJournalEntries();

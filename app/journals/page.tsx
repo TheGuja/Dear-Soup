@@ -1,4 +1,5 @@
 import { shareJournal } from "./actions";
+import Tiptap from "../ui/journals/Tiptap";
 
 export default function Page() {
     return (
@@ -13,6 +14,7 @@ export default function Page() {
                 <input id="share" name="share" type="email" />
                 <button formAction={shareJournal}>Share Journal</button>
             </form>
+            <Tiptap />
         </>
 
     );
