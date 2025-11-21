@@ -3,20 +3,6 @@
 import { login, signup } from "./actions";
 
 export default function Page() {
-    // const [username, setUsername] = useState("")
-    // const [password, setPassword] = useState("")
-
-    // const handleLogin = () => {
-    //     console.log("Username:", username);
-    //     console.log("Password:", password);
-        
-    //     if (username === "admin" && password === "1234") {
-    //         alert("Login successful!");
-    //     } else {
-    //         alert("Invalid credentials");
-    //     }
-    // };
-
     return (
     <div className="min-h-screen">
         <section className="h-screen flex items-center justify-center bg-stone-950 text-white">
