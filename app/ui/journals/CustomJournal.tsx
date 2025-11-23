@@ -8,12 +8,17 @@ import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
+import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import SaveButton from './SaveButton';
 // import { Save } from './actions';
+
+interface Styles {
+    className?: string;
+}
 
 const theme = {
   // Theme styling goes here
@@ -48,30 +53,27 @@ function onError(error: Error): void {
 //   const [editor] = useLexicalComposerContext();
 // }
 
-export default function CustomJournal() {
+export default function CustomJournal({ className = ""} : Styles) {
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
     onError,
   };
 
-//   const [editorState, setEditorState] = useState();
-
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <SaveButton className='bg-black text-white'/>
       <RichTextPlugin
         contentEditable={
-          <ContentEditable className='bg-black text-white'
-            // aria-placeholder={'Enter some text...'}
-            // placeholder={<div>Enter some text...</div>}
-          />
+          // <ContentEditable className='bg-black text-white w-[100%] h-[100%]'/>
+          <ContentEditable className={className}/>
         }
         ErrorBoundary={LexicalErrorBoundary}
       />
+      {/* <SaveButton className='bg-black text-white'/> */}
       <OnChangePlugin onChange={(editorState) => { console.log(editorState) }} />
       <HistoryPlugin />
       <AutoFocusPlugin />
+      <TabIndentationPlugin />
     </LexicalComposer>
   );
 }
