@@ -1,7 +1,7 @@
 'use client'
 
 import {$getRoot, $getSelection} from 'lexical';
-import {useEffect, useState} from 'react';
+import {useRef} from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -9,15 +9,22 @@ import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { EditorRefPlugin } from '@lexical/react/LexicalEditorRefPlugin';
+import { LexicalEditor } from 'lexical';
+
 import SaveButton from './SaveButton';
 // import { Save } from './actions';
 
 interface Styles {
     className?: string;
+}
+
+interface Save {
+
 }
 
 const theme = {
@@ -32,28 +39,9 @@ function onError(error: Error): void {
   console.error(error);
 }
 
-// When the editor changes, you can get notified via the
-// OnChangePlugin!
-// function MyOnChangePlugin(props: { onChange: (editorState: EditorState) => void}): null {
-//   // Access the editor through the LexicalComposerContext
-//   const [editor] = useLexicalComposerContext();
-//   const { onChange } = props;
-//   // Wrap our listener in useEffect to handle the teardown and avoid stale references.
-//   useEffect(() => {
-//     // most listeners return a teardown function that can be called to clean them up.
-//     return editor.registerUpdateListener(({editorState}) => {
-//       // call onChange here to pass the latest state up to the parent.
-//       onChange(editorState);
-//     });
-//   }, [editor, onChange]);
-//   return null;
-// }
+export default function CustomJournal({ className = "" } : Styles) {
+  const editorRef = useRef(null)
 
-// function GetEditorStateButton() {
-//   const [editor] = useLexicalComposerContext();
-// }
-
-export default function CustomJournal({ className = ""} : Styles) {
   const initialConfig = {
     namespace: 'MyEditor',
     theme,
@@ -69,8 +57,7 @@ export default function CustomJournal({ className = ""} : Styles) {
         }
         ErrorBoundary={LexicalErrorBoundary}
       />
-      {/* <SaveButton className='bg-black text-white'/> */}
-      <OnChangePlugin onChange={(editorState) => { console.log(editorState) }} />
+      <EditorRefPlugin editorRef={editorRef}/>
       <HistoryPlugin />
       <AutoFocusPlugin />
       <TabIndentationPlugin />
