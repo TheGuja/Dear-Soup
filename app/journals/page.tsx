@@ -1,20 +1,15 @@
 'use client'
 
-import {$getRoot, $getSelection} from 'lexical';
-import {useRef} from 'react';
-
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
-import {LexicalComposer} from '@lexical/react/LexicalComposer';
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
-import {ContentEditable} from '@lexical/react/LexicalContentEditable';
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
+import { useState } from 'react';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { EditorRefPlugin } from '@lexical/react/LexicalEditorRefPlugin';
-import { LexicalEditor } from 'lexical';
 
 // export default function Page() {
 //     return (
@@ -35,17 +30,13 @@ import { LexicalEditor } from 'lexical';
         //     <CustomJournal className="bg-stone-950 border border-white text-white h-[50%] w-[35%] p-[1%]"/>
         //     <CustomJournal className="bg-stone-950 border border-white text-white h-[50%] w-[35%] p-[1%]"/>
         // </div>
-        
 
-
-//     );
-// }
 function onError(error: Error): void {
   console.error(error);
 }
 
 export default function Page() {
-  const editorRef = useRef(null)
+  const [text, setText] = useState<string | null>(null);
 
   const initialConfig = {
     namespace: 'MyEditor',
@@ -64,7 +55,7 @@ export default function Page() {
                 }
                 ErrorBoundary={LexicalErrorBoundary}
             />
-            <EditorRefPlugin editorRef={editorRef}/>
+            {/* <EditorRefPlugin editorRef={editorRef}/> */}
             <HistoryPlugin />
             <AutoFocusPlugin />
             <TabIndentationPlugin />
@@ -79,14 +70,15 @@ export default function Page() {
                 }
                 ErrorBoundary={LexicalErrorBoundary}
             />
-            <EditorRefPlugin editorRef={editorRef}/>
+            <OnChangePlugin onChange={(editorState: EditorState) => {setText(JSON.stringify(editorState.toJSON()))}}/>
             <HistoryPlugin />
             <AutoFocusPlugin />
             <TabIndentationPlugin />
             </LexicalComposer>
         </div>
 
-        <button className='mt-[1%] bg-stone-950 text-white'>
+        {/* Define function to save json text to database */}
+        <button className='mt-[1%] bg-stone-950 text-white' onClick={() => console.log(text)}>
             Save
         </button>
     </div>

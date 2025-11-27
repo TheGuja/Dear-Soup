@@ -23,10 +23,6 @@ interface Styles {
     className?: string;
 }
 
-interface Save {
-
-}
-
 const theme = {
   // Theme styling goes here
   //...
