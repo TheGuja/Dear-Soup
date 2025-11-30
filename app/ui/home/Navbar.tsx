@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-export default function SideNav() {
+export default function Navbar() {
     return (
         <div className="flex flex-row bg-black w-full h-1/10 text-5xl">
             <div className="border-4 border-sky-500 m-[1%]">

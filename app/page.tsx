@@ -1,5 +1,5 @@
 import Image from "next/image";
-import SideNav from "./ui/home/sidenav";
+import SideNav from "./ui/home/Navbar";
 // import { createClient } from "@/utils/supabase/server";
 
 // export default function Home() {
