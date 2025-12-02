@@ -6,15 +6,16 @@ import { getCurrentUser } from '@/utils/utils';
 export async function shareJournal(formData: FormData) {
     const supabase = await createClient();
 
-    const text = formData.get('journal-text')
-    const sharedUser = formData.get('share')
+    const text = formData.get('journal-text');
+    const sharedUser = formData.get('share');
+    const title = formData.get('title');
 
-    if (typeof text !== 'string' || typeof sharedUser !== 'string') {
+    if (typeof text !== 'string' || typeof sharedUser !== 'string' || typeof title !== 'string') {
         throw new Error("Expected string form values");
     }
 
-    const retrievedData: { text: string; sharedUser : string} = {
-        text, sharedUser,
+    const retrievedData: { text: string; sharedUser : string; title: string} = {
+        text, sharedUser, title
     }
 
     console.log("Starting fetch")
@@ -27,7 +28,7 @@ export async function shareJournal(formData: FormData) {
     } else {
         // console.log('Retrieved user:', sharedUserID.data.id);
         // console.log('Owner id:', currentUserID)
-        const { error } = await supabase.from('journals').insert({ content: retrievedData.text, owner_id: currentUserID, other_id: sharedUserID.data.id})
+        const { error } = await supabase.from('journals').insert({ content: retrievedData.text, owner_id: currentUserID, other_id: sharedUserID.data.id, title: retrievedData.title})
         
         if (error) {
             throw error;
