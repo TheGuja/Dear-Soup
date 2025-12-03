@@ -25,8 +25,17 @@ export default function Page() {
 
   // idea is to have one side dedicated to one user and the other side dedicated to the other user
   return (
-    <div className='h-screen flex flex-col items-center justify-center' id='journal'>
-        <div className='flex space-x-4 h-[70%] w-[80%]'>
+    <>
+      {/* <div className='border border-black h-[1%]'>
+        <div>
+          <input className='border border-bg-stone-950' placeholder='Title' />
+        </div>
+      </div> */}
+      <div className='h-screen flex flex-col items-center justify-center' id='journal'>
+        <div id='title'>
+          <input placeholder='Title' className='border border-bg-stone-950'/>
+        </div>
+        <div className='flex space-x-4 h-[70%] w-[80%] mt-[5%]'>
             <LexicalComposer initialConfig={initialConfig}>
             <RichTextPlugin
                 contentEditable={
@@ -61,7 +70,7 @@ export default function Page() {
         <button className='mt-[1%] bg-stone-950 text-white' onClick={() => console.log(text)}>
             Save
         </button>
-    </div>
-
+      </div>
+    </>
   );
 }
