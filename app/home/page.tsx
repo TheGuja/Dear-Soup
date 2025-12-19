@@ -1,8 +1,9 @@
-import Navbar from "../ui/home/Navbar";
+import Sidebar from "../ui/components/Sidebar";
 import { createClient } from "@/utils/supabase/server";
 import { getJournalEntries } from "./actions";
 import { getCurrentUser } from "@/utils/utils";
 import { type } from "os";
+import Link from "next/link";
 
 type Journal = {
     journal_id: string,
@@ -44,13 +45,13 @@ export default async function Page() {
     return (
         <div>
             {/* <h1>Dear Soup Home Page</h1> */}
-            <Navbar/>
-            <button className="border border-black">
-                Create New Journal
-            </button>
+            <Sidebar />
             <ul>
                 {data.map((journal: Journal, index: number) => (
-                    <li key={index}>{journal.title}</li>
+                    // <li key={index}>
+                    //     {journal.title}
+                    // </li>
+                    <Link key={journal.title} href={`/testjournal/${journal.journal_id}`}>{journal.title}</Link>
                 ))}
             </ul>
         </div>

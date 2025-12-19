@@ -1,27 +1,38 @@
+'use client'
+
 import Link from "next/link";
+import { useState } from "react";
 
 type NavLink = {
     name: string;
     href: string;
 }
 
-export default function Sidebar( {open, onClose }: {open: boolean; onClose: () => void}) {
+export default function Sidebar() {
     const navLinks: NavLink[] = [
         { name: 'Home', href: '/'},
         { name: 'Journals', href: '/journals'},
         { name: 'Create', href: '/create'},
     ];
 
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
     return (
         <>
+            {!isOpen && (
+                    <button onClick={() => setIsOpen(true)} className="fixed top-4 left-4 z-50 px-4 py-2 bg-white text-black rounded hover:bg-stone-200">
+                        ≡
+                    </button>
+                )
+            }
             <div
-                onClick={onClose}
+                onClick={() => setIsOpen(false)}
                 className={`fixed inset-0 bg-black/50 transition-opacity
-                ${open ? 'opacity-100 visible' : 'pointer-events-none opacity-0 invisible'}`}
+                ${isOpen ? 'opacity-100 visible' : 'pointer-events-none opacity-0 invisible'}`}
             />
             <aside
                 className={`fixed top-0 left-0 h-screen w-[25%] bg-stone-900 text-white transform transition-transform
-                ${open ? "translate-x-0" : "-translate-x-full"}`}
+                ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
             >
             <nav className="">
                 <ul>
