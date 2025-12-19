@@ -17,7 +17,7 @@ export default async function Page() {
     const supabase = await createClient();
     // const data = await getJournalEntries();
     // TODO: Create view for table later
-    const currentUserID = await getCurrentUser();
+    const currentUserID = await getCurrentUser(supabase);
     const res = await supabase.from("journals").select("*").or(`owner_id.eq.${currentUserID},other_id.eq.${currentUserID}`);
     const data = res.data;
     // console.log(data);

@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/utils/utils"
 export async function getJournalEntries() {
     const supabase = await createClient();
 
-    const currentUserID = await getCurrentUser();
+    const currentUserID = await getCurrentUser(supabase);
     console.log(currentUserID);
 
     const { data, error } = await supabase.rpc('get_shared_journal_content', {p_user_id: currentUserID});
