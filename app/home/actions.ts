@@ -2,10 +2,9 @@
 
 import { createClient } from "@/utils/supabase/server"
 import { getCurrentUser } from "@/utils/utils"
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function getJournalEntries() {
-    const supabase = await createClient();
-
+export async function getJournalEntries(supabase: SupabaseClient) {
     const currentUserID = await getCurrentUser(supabase);
     console.log(currentUserID);
 
