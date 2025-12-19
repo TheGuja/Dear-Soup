@@ -17,6 +17,7 @@ import Sidebar from "./ui/components/Sidebar";
 // }
 export default function Home() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  
   return (
     <div className="min-h-screen">
       {!isOpen && (
