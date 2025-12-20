@@ -52,8 +52,17 @@ export default function Page() {
     <>
       <div id='journal'>
         <div id='title'>
-          <input placeholder='Title' className='border border-bg-stone-950'/>
-          <button>Share</button>
+          {/* <input placeholder='Title' className='border border-bg-stone-950'/>
+          <button>Share</button> */}
+          <form className="border border-solid">
+            {/* <label htmlFor="journal-text">Journal Text:</label> */}
+            <input id="journal-text" name="journal-text" type="text" />
+            <label htmlFor="share">Share With:</label>
+            <input id="share" name="share" type="email" />
+            <label htmlFor="title">Title:</label>
+            <input id="title" name="title" type="text" />
+            <button formAction={shareJournal}>Share Journal</button>
+          </form>
         </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>

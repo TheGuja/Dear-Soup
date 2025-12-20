@@ -19,7 +19,7 @@ export async function shareJournal(formData: FormData) {
     }
 
     console.log("Starting fetch")
-    const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(), supabase.from("users").select("id").eq("email", retrievedData.sharedUser).single()]);
+    const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(supabase), supabase.from("users").select("id").eq("email", retrievedData.sharedUser).single()]);
     console.log("Completed")
 
     if (sharedUserID.error) {

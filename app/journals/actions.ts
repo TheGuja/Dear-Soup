@@ -10,6 +10,6 @@ export async function save(title: FormData, content: string) {
 export async function getJournals() {
     const supabase = await createClient();
 
-    const userID = getCurrentUser();
+    const userID = getCurrentUser(supabase);
     console.log(userID);
 }
