@@ -1,9 +1,7 @@
-// export default function Page() {
-//     return (
 'use client'
 
 import { shareJournal } from "./actions";
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
@@ -18,29 +16,25 @@ function onError(error: Error): void {
   console.error(error);
 }
 
-// export default function Page() {
-    
-//     return (
-//         <div>
-//             <button className="border border-black">
-//                 Create a journal
-//             </button>
-            
-//             <form className="border border-solid">
-//                 <label htmlFor="journal-text">Journal Text:</label>
-//                 <input id="journal-text" name="journal-text" type="text" />
-//                 <label htmlFor="share">Share With:</label>
-//                 <input id="share" name="share" type="email" />
-//                 <label htmlFor="title">Title:</label>
-//                 <input id="title" name="title" type="text" />
-//                 <button formAction={shareJournal}>Share Journal</button>
-//             </form>
-//         </div>
-//     );
-// }
-
 export default function Page() {
-  const [text, setText] = useState<string | null>(null);
+  const [text, setText] = useState<string>("");
+  const sharedUserRef = useRef<HTMLInputElement | null>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+
+  const handleShare = async () => {
+    const sharedUser = sharedUserRef.current?.value;
+    const title = titleRef.current?.value;
+    const content = text;
+
+    // Implement checking for empty values later
+    if ( !sharedUser || !title) {
+      alert("Please fill out shared user field!")
+      return;
+    }
+
+    // console.log(data);
+    await shareJournal(sharedUser, title, content);
+  };
 
   const initialConfig = {
     namespace: 'MyEditor',
@@ -52,17 +46,11 @@ export default function Page() {
     <>
       <div id='journal'>
         <div id='title'>
-          {/* <input placeholder='Title' className='border border-bg-stone-950'/>
-          <button>Share</button> */}
-          <form className="border border-solid">
-            {/* <label htmlFor="journal-text">Journal Text:</label> */}
-            <input id="journal-text" name="journal-text" type="text" />
-            <label htmlFor="share">Share With:</label>
-            <input id="share" name="share" type="email" />
-            <label htmlFor="title">Title:</label>
-            <input id="title" name="title" type="text" />
-            <button formAction={shareJournal}>Share Journal</button>
-          </form>
+          <label htmlFor="share">Share With:</label>
+          <input id="share" name="share" ref={sharedUserRef} type="email" />
+          <label htmlFor="title">Title:</label>
+          <input id="title" name="title" ref={titleRef} type="text" />
+          <button onClick={handleShare}>Share Journal</button>
         </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
@@ -75,6 +63,7 @@ export default function Page() {
                     ErrorBoundary={LexicalErrorBoundary}
                 />
                 {/* <EditorRefPlugin editorRef={editorRef}/> */}
+                <OnChangePlugin onChange={(editorState: EditorState) => {setText(JSON.stringify(editorState.toJSON()))}} />
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />
@@ -89,7 +78,7 @@ export default function Page() {
                     }
                     ErrorBoundary={LexicalErrorBoundary}
                 />
-                <OnChangePlugin onChange={(editorState: EditorState) => {setText(JSON.stringify(editorState.toJSON()))}}/>
+                {/* <OnChangePlugin onChange={(editorState: EditorState) => {setText(JSON.stringify(editorState.toJSON()))}}/> */}
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />

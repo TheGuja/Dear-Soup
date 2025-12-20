@@ -10,3 +10,7 @@ export async function getCurrentUser(supabase: SupabaseClient) {
 
     return user?.id;
 };
+
+export async function save(supabase: SupabaseClient) {
+    // get current journal id
+}
