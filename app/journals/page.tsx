@@ -48,7 +48,7 @@ export default async function Page() {
                     // <li key={index}>
                     //     {journal.title}
                     // </li>
-                    <Link key={journal.title} href={`/testjournal/${journal.journal_id}`}>{journal.title}</Link>
+                    <Link key={journal.title} href={`/journals/${journal.journal_id}`}>{journal.title}</Link>
                 ))}
             </ul>
         </div>
