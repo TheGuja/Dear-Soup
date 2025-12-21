@@ -44,7 +44,6 @@ export default async function Page() {
     
     return (
         <div>
-            {/* <h1>Dear Soup Home Page</h1> */}
             <Sidebar />
             <ul>
                 {data.map((journal: Journal) => (
