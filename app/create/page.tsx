@@ -1,13 +1,13 @@
-import { shareJournal } from "./actions";
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { EditorState } from 'lexical';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+// import { shareJournal } from "./actions";
+// import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+// import { LexicalComposer } from '@lexical/react/LexicalComposer';
+// import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+// import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+// import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+// import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
+// import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+// import { EditorState } from 'lexical';
+// import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import Journal from "../ui/components/Journal";
 
 export default async function Page() {

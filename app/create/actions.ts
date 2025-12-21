@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { getCurrentUser } from '@/utils/utils';
-import { SupabaseClient } from '@supabase/supabase-js';
+// import { SupabaseClient } from '@supabase/supabase-js';
 
 // export async function shareJournal(formData: FormData) {
 //     const supabase = await createClient();
