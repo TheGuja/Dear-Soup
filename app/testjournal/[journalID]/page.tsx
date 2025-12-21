@@ -20,6 +20,6 @@ export default async function Page({ params }: {params: Promise<{ journalID: str
     // console.log(data[0].content);
 
     return (
-        <Journal savedData={content} />
+        <Journal savedCurrentUserData={content} />
     );
 }

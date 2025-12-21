@@ -12,7 +12,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 
-export default function Journal({ savedData }: { savedData?: string}) {
+export default function Journal({ savedCurrentUserData, savedOtherUserData }: { savedCurrentUserData?: string, savedOtherUserData?: string}) {
     // function onError(error: Error): void {
     //     console.error(error);
     // }
@@ -37,10 +37,16 @@ export default function Journal({ savedData }: { savedData?: string}) {
     await shareJournal(sharedUser, title, content);
     };
 
-    const initialConfig = {
+    const initialConfigCurrentUser = {
     namespace: 'MyEditor',
-    editorState: savedData || EMPTY_STATE,
+    editorState: savedCurrentUserData || EMPTY_STATE,
     onError: (error: Error) => console.error(error),
+    };
+
+    const initialConfigOtherUser = {
+        namespace: 'MyEditor',
+        editorState: savedOtherUserData || EMPTY_STATE,
+        onError: (error: Error) => console.error(error),
     };
 
     // idea is to have one side dedicated to one user and the other side dedicated to the other user
@@ -56,7 +62,7 @@ export default function Journal({ savedData }: { savedData?: string}) {
         </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
-                <LexicalComposer initialConfig={initialConfig}>
+                <LexicalComposer initialConfig={initialConfigCurrentUser}>
                 <RichTextPlugin
                     contentEditable={
                     // <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%] bg-[repeating-linear-gradient(white,_white_12px,_black_12px,_black 24px)]'/>
@@ -72,7 +78,7 @@ export default function Journal({ savedData }: { savedData?: string}) {
                 </LexicalComposer>
 
                 {/* other user */}
-                <LexicalComposer initialConfig={initialConfig}>
+                <LexicalComposer initialConfig={initialConfigOtherUser}>
                 <RichTextPlugin
                     contentEditable={
                     // <ContentEditable className='bg-black text-white w-[100%] h-[100%]'/>
