@@ -1,6 +1,7 @@
 'use client'
 
 import { shareJournal } from '@/app/create/actions';
+import { saveJournal } from '@/utils/utils';
 import { useState, useRef } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -11,8 +12,9 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { UUID } from 'crypto';
 
-export default function Journal({ savedCurrentUserData, savedOtherUserData }: { savedCurrentUserData?: string, savedOtherUserData?: string}) {
+export default function Journal({ savedCurrentUserData, savedOtherUserData, journalID }: { savedCurrentUserData?: string, savedOtherUserData?: string, journalID: string}) {
     // function onError(error: Error): void {
     //     console.error(error);
     // }
@@ -22,19 +24,19 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData }: { 
     const sharedUserRef = useRef<HTMLInputElement | null>(null);
     const titleRef = useRef<HTMLInputElement>(null);
 
-    const handleShare = async () => {
-    const sharedUser = sharedUserRef.current?.value;
-    const title = titleRef.current?.value;
-    const content = text;
+    const handleSave: () => Promise<void> = async () => {
+        const sharedUser = sharedUserRef.current?.value;
+        const title = titleRef.current?.value;
+        const content = text;
 
-    // Implement checking for empty values later
-    if ( !sharedUser || !title) {
-        alert("Please fill out shared user field!")
-        return;
-    }
+        // Implement checking for empty values later
+        if ( !sharedUser || !title) {
+            alert("Please fill out shared user field!")
+            return;
+        }
 
-    // console.log(data);
-    await shareJournal(sharedUser, title, content);
+        // console.log(data);
+        await saveJournal(sharedUser, title, journalID);
     };
 
     const initialConfigCurrentUser = {
@@ -58,7 +60,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData }: { 
             <input id="share" name="share" ref={sharedUserRef} type="email" />
             <label htmlFor="title">Title:</label>
             <input id="title" name="title" ref={titleRef} type="text" />
-            <button onClick={handleShare}>Share Journal</button>
+            {/* <button onClick={handleSave}>Share Journal</button> */}
         </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
@@ -92,7 +94,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData }: { 
                 <TabIndentationPlugin />
                 </LexicalComposer>
             </div>
-            <button className='mt-[1%] bg-stone-950 text-white' onClick={() => console.log(text)}>
+            <button className='mt-[1%] bg-stone-950 text-white' onClick={handleSave}>
                 Save
             </button>
         </div>

@@ -1,5 +1,3 @@
-'use server'
-
 import { createClient } from "@/utils/supabase/server";
 import { getCurrentUser } from "@/utils/utils";
 import { createJournal } from "./actions";

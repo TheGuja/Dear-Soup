@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
-import { notFound } from "next/navigation";
-import { use } from "react"
+// import { notFound } from "next/navigation";
+// import { use } from "react"
 import getJournalContent from "./actions";
 import Journal from "@/app/ui/components/Journal";
 
@@ -10,9 +10,9 @@ import Journal from "@/app/ui/components/Journal";
 
 export default async function Page({ params }: {params: Promise<{ journalID: string }>}) {
     const { journalID } = await params;
-    const supabase = await createClient();
+    // const supabase = await createClient();
 
-    const content = await getJournalContent(supabase, journalID)
+    // const content = await getJournalContent(supabase, journalID)
 
     // const res = await supabase.from("journals").select("content").eq("journal_id", journalID).single();
     // const content = res.data?.content;
@@ -20,6 +20,7 @@ export default async function Page({ params }: {params: Promise<{ journalID: str
     // console.log(data[0].content);
 
     return (
-        <Journal savedCurrentUserData={content} />
+        <Journal journalID={journalID}/>
     );
 }
+
