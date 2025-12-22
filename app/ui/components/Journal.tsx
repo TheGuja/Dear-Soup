@@ -1,7 +1,7 @@
 'use client'
 
 import { shareJournal } from '@/app/create/actions';
-import { saveJournal, savePage } from '@/utils/utils';
+import { saveJournal, savePage, loadPage } from '@/utils/utils';
 import { useState, useRef } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -24,6 +24,12 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     const titleRef = useRef<HTMLInputElement>(null);
 
     const [displayedDate, setDisplayedDate] = useState<Date>(new Date())
+
+    const loadPageContent: () => Promise<void> = async () => {
+        // const formattedDate = new Intl.DateTimeFormat('en-US').format(displayedDate);
+        // const formattedDate = displayedDate.toISOString().split('T')[0];
+        await loadPage(journalID, displayedDate)
+    };
 
     const handleSave: () => Promise<void> = async () => {
         const sharedUser = sharedUserRef.current?.value;
@@ -138,6 +144,9 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
             </button>
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
                 Save Page Content
+            </button>
+            <button className='mt-[1%] bg-stone-950 text-white' onClick={loadPageContent}>
+                Load Page Content
             </button>
         </div>
         </div>
