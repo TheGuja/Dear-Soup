@@ -1,7 +1,7 @@
 'use client'
 
 import { shareJournal } from '@/app/create/actions';
-import { saveJournal } from '@/utils/utils';
+import { saveJournal, savePage } from '@/utils/utils';
 import { useState, useRef } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -39,6 +39,10 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
         // console.log(data);
         await saveJournal(sharedUser, title, journalID);
     };
+
+    const handlePageSave: () => Promise<void> = async () => {
+        await savePage(journalID, displayedDate, text)
+    }
 
     const initialConfigCurrentUser = {
         namespace: 'MyEditor',
@@ -130,7 +134,10 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 </button>
             </div>
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handleSave}>
-                Save
+                Save Journal
+            </button>
+            <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
+                Save Page Content
             </button>
         </div>
         </div>
