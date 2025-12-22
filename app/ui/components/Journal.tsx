@@ -23,6 +23,8 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     const sharedUserRef = useRef<HTMLInputElement | null>(null);
     const titleRef = useRef<HTMLInputElement>(null);
 
+    const [displayedDate, setDisplayedDate] = useState<Date>(new Date())
+
     const handleSave: () => Promise<void> = async () => {
         const sharedUser = sharedUserRef.current?.value;
         const title = titleRef.current?.value;
@@ -51,14 +53,16 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     };
 
     // Check to see if it gets current date for current timezone
-    const currentDate = new Date()
+    // const todayDate = new Date();
+    // const displayedDate = new Date(todayDate);
+    // todayDate.setDate(todayDate.getDate() + 10)
     const options: Intl.DateTimeFormatOptions = {
         weekday: 'short',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     };
-    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(currentDate);
+    // const formattedDate = new Intl.DateTimeFormat('en-US', options).format(displayedDate);
 
 
     // idea is to have one side dedicated to one user and the other side dedicated to the other user
@@ -74,7 +78,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
         </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div>
-                <h1>{formattedDate}</h1>
+                <h1>{new Intl.DateTimeFormat('en-US', options).format(displayedDate)}</h1>
             </div>
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
                 <LexicalComposer initialConfig={initialConfigCurrentUser}>
@@ -106,6 +110,18 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />
                 </LexicalComposer>
+                <button onClick={() => {
+                    // const nextDate = new Date();
+                    // nextDate.setDate(displayedDate.getDate() + 1);
+                    // setDisplayedDate(nextDate);
+                    setDisplayedDate(prevDate => {
+                        const nextDate = new Date(prevDate); // Clone the previous date
+                        nextDate.setDate(prevDate.getDate() + 1); // Mutate the clone, not the state
+                        return nextDate; // Return the new object
+                    });
+                }}>
+                    <h1>Next Page</h1>
+                </button>
             </div>
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handleSave}>
                 Save
