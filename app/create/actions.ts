@@ -37,7 +37,7 @@ import { getCurrentUser } from '@/utils/utils';
 //     };
 // };
 
-export async function shareJournal(sharedUser: string, title: string, content: string) {
+export async function shareJournal(sharedUser: string, title: string, content: string): Promise<void> {
     // Check handling of empty string for sharedUser, title, and content
     const supabase = await createClient()
     const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(supabase), supabase.from("users").select("id").eq("email", sharedUser).single()]);

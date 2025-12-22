@@ -1,7 +1,11 @@
+'use server'
+
 import { createClient } from "@/utils/supabase/server";
 import { getCurrentUser } from "@/utils/utils";
+import { createJournal } from "./actions";
 import Link from "next/link";
 import Sidebar from "../ui/components/Sidebar";
+import CreateJournal from "../ui/components/CreateJournal";
 
 type Journal = {
     journal_id: string,
@@ -24,25 +28,10 @@ export default async function Page() {
         throw Error;
     }
 
-    // data.map((journal, index)) => {
-    //     console.log(journal_id)
-    // })
-    // data.map((journal: Journal) => {
-    //     console.log(journal.title);
-    // });
-    // const {journal_id, content, owner_id, other_id, title} = data[0]
-    // const newData = JSON.stringify(data);
-    // console.log(currentUserID);
-    // console.log(data.data);
-    // const newData = data.data
-    // console.log(data[0])
-    // console.log(newData[0].journal_id)
-
-    // console.log(journal_id, content, title)
-    
     return (
         <div>
             <Sidebar />
+            <CreateJournal onClick={createJournal} />
             <ul>
                 {data.map((journal: Journal) => (
                     // <li key={index}>
