@@ -12,7 +12,6 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { UUID } from 'crypto';
 
 export default function Journal({ savedCurrentUserData, savedOtherUserData, journalID }: { savedCurrentUserData?: string, savedOtherUserData?: string, journalID: string}) {
     // function onError(error: Error): void {
@@ -40,9 +39,9 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     };
 
     const initialConfigCurrentUser = {
-    namespace: 'MyEditor',
-    editorState: savedCurrentUserData || EMPTY_STATE,
-    onError: (error: Error) => console.error(error),
+        namespace: 'MyEditor',
+        editorState: savedCurrentUserData || EMPTY_STATE,
+        onError: (error: Error) => console.error(error),
     };
 
     const initialConfigOtherUser = {
@@ -50,6 +49,17 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
         editorState: savedOtherUserData || EMPTY_STATE,
         onError: (error: Error) => console.error(error),
     };
+
+    // Check to see if it gets current date for current timezone
+    const currentDate = new Date()
+    const options: Intl.DateTimeFormatOptions = {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    };
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(currentDate);
+
 
     // idea is to have one side dedicated to one user and the other side dedicated to the other user
     return (
@@ -63,6 +73,9 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
             {/* <button onClick={handleSave}>Share Journal</button> */}
         </div>
         <div className="h-screen flex flex-col items-center justify center">
+            <div>
+                <h1>{formattedDate}</h1>
+            </div>
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
                 <LexicalComposer initialConfig={initialConfigCurrentUser}>
                 <RichTextPlugin

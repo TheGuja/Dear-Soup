@@ -2,7 +2,6 @@
 
 import { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
-import { UUID } from "crypto";
 
 export async function getCurrentUser(supabase: SupabaseClient) {
     const { data: {user}, error } = await supabase.auth.getUser();
@@ -14,9 +13,9 @@ export async function getCurrentUser(supabase: SupabaseClient) {
     return user?.id;
 };
 
-export async function getCurrentJournalID(supabase: SupabaseClient) {
+// export async function getCurrentJournalID(supabase: SupabaseClient) {
     
-}
+// }
 
 export async function saveJournal(sharedUser: string, title: string, journalID: string): Promise<void> {
     // Check handling of empty string for sharedUser, title, and content
