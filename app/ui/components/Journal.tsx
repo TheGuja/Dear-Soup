@@ -81,6 +81,15 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <h1>{new Intl.DateTimeFormat('en-US', options).format(displayedDate)}</h1>
             </div>
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
+                <button onClick={() => {
+                    setDisplayedDate(prevDate => {
+                        const nextDate = new Date(prevDate); // Clone the previous date
+                        nextDate.setDate(prevDate.getDate() - 1); // Mutate the clone, not the state
+                        return nextDate; // Return the new object
+                    });
+                }}>
+                    <h1>Previous Page</h1>
+                </button>
                 <LexicalComposer initialConfig={initialConfigCurrentUser}>
                 <RichTextPlugin
                     contentEditable={
@@ -111,9 +120,6 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <TabIndentationPlugin />
                 </LexicalComposer>
                 <button onClick={() => {
-                    // const nextDate = new Date();
-                    // nextDate.setDate(displayedDate.getDate() + 1);
-                    // setDisplayedDate(nextDate);
                     setDisplayedDate(prevDate => {
                         const nextDate = new Date(prevDate); // Clone the previous date
                         nextDate.setDate(prevDate.getDate() + 1); // Mutate the clone, not the state
