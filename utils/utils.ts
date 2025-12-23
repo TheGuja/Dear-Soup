@@ -58,9 +58,9 @@ export async function loadPage(journalID: string, date: Date): Promise<string> {
     const supabase = await createClient();
     // const currentUserID = await getCurrentUser(supabase);
 
-    // const res = await supabase.from('pages').select('page_content').match({'journal_id': journalID, 'created_at': date}).single();
+    
     const formattedDate = new Intl.DateTimeFormat('en-US').format(date);
-    const res = await supabase.from('pages').select('page_content').eq('created_at', formattedDate).single();
+    const res = await supabase.from('pages').select('page_content').match({'journal_id': journalID, 'created_at': formattedDate}).single();
 
     if (res.error) {
         throw res.error;

@@ -2,7 +2,7 @@
 
 import { shareJournal } from '@/app/create/actions';
 import { saveJournal, savePage, loadPage } from '@/utils/utils';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
@@ -12,24 +12,44 @@ import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
 export default function Journal({ savedCurrentUserData, savedOtherUserData, journalID }: { savedCurrentUserData?: string, savedOtherUserData?: string, journalID: string}) {
     // function onError(error: Error): void {
     //     console.error(error);
     // }
+
     const EMPTY_STATE = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
+    // Check the text, setText to see if able to use this to load page content
     const [text, setText] = useState<string>("");
     const sharedUserRef = useRef<HTMLInputElement | null>(null);
     const titleRef = useRef<HTMLInputElement>(null);
 
-    const [displayedDate, setDisplayedDate] = useState<Date>(new Date())
+    const [displayedContent, setDisplayedContent] = useState<string>(EMPTY_STATE);
+    const [displayedDate, setDisplayedDate] = useState<Date>(new Date());
 
-    const loadPageContent: () => Promise<void> = async () => {
-        // const formattedDate = new Intl.DateTimeFormat('en-US').format(displayedDate);
-        // const formattedDate = displayedDate.toISOString().split('T')[0];
-        await loadPage(journalID, displayedDate)
-    };
+    useEffect(() => {
+        const loadPageContent: () => Promise<void> = async () => {
+            const loadedPageContent = await loadPage(journalID, displayedDate);
+            setDisplayedContent(loadedPageContent);
+        };
+
+        loadPageContent();
+    }, [displayedDate]);
+
+    function LoadContentPlugin({ content }: { content: string }) {
+        const [editor] = useLexicalComposerContext();
+
+        useEffect(() => {
+            if (content) {
+                const editorState = editor.parseEditorState(content);
+                editor.setEditorState(editorState);
+            }
+        }, [content, editor]);
+
+        return null;
+    }
 
     const handleSave: () => Promise<void> = async () => {
         const sharedUser = sharedUserRef.current?.value;
@@ -51,13 +71,13 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     }
 
     const initialConfigCurrentUser = {
-        namespace: 'MyEditor',
-        editorState: savedCurrentUserData || EMPTY_STATE,
+        namespace: 'CurrentUser',
+        editorState: displayedContent,
         onError: (error: Error) => console.error(error),
     };
 
     const initialConfigOtherUser = {
-        namespace: 'MyEditor',
+        namespace: 'OtherUser',
         editorState: savedOtherUserData || EMPTY_STATE,
         onError: (error: Error) => console.error(error),
     };
@@ -113,6 +133,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />
+                <LoadContentPlugin content={displayedContent}/>
                 </LexicalComposer>
 
                 {/* other user */}
@@ -145,9 +166,9 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
                 Save Page Content
             </button>
-            <button className='mt-[1%] bg-stone-950 text-white' onClick={loadPageContent}>
+            {/* <button className='mt-[1%] bg-stone-950 text-white' onClick={loadPageContent}>
                 Load Page Content
-            </button>
+            </button> */}
         </div>
         </div>
     </>
