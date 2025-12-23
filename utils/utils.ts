@@ -57,16 +57,19 @@ export async function savePage(journalID: string, date: Date, content: string): 
 export async function loadPage(journalID: string, date: Date): Promise<string> {
     const supabase = await createClient();
     // const currentUserID = await getCurrentUser(supabase);
+    const EMPTY_STATE = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
     
     const formattedDate = new Intl.DateTimeFormat('en-US').format(date);
     const res = await supabase.from('pages').select('page_content').match({'journal_id': journalID, 'created_at': formattedDate}).single();
 
-    if (res.error) {
+    if (res.error && res.error.code == 'PGRST116') {
+        return EMPTY_STATE;
+    } else if (res.error) {
         throw res.error;
+    } else {
+        const content = res.data?.page_content;
+        console.log(content);
+        return content;
     };
-
-    const content = res.data?.page_content;
-    console.log(content);
-    return content;
-}
+};

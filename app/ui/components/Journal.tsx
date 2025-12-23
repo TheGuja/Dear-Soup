@@ -36,7 +36,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
         };
 
         loadPageContent();
-    }, [displayedDate]);
+    }, [journalID, displayedDate]);
 
     function LoadContentPlugin({ content }: { content: string }) {
         const [editor] = useLexicalComposerContext();
