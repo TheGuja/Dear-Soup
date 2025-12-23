@@ -61,14 +61,19 @@ export async function loadPage(journalID: string, date: Date): Promise<string> {
 
     
     const formattedDate = new Intl.DateTimeFormat('en-US').format(date);
-    const res = await supabase.from('pages').select('page_content').match({'journal_id': journalID, 'created_at': formattedDate}).single();
+    const res = await supabase.from('pages').select('page_content').match({'journal_id': journalID, 'created_at': formattedDate});
+    // console.log(res.data?.at(0)?.page_content);
+    // if (res.count == null) {
+    //     console.log("none")
+    // }
+    console.log(res.data?.length)
 
-    if (res.error && res.error.code == 'PGRST116') {
-        return EMPTY_STATE;
-    } else if (res.error) {
+    if (res.error) {
         throw res.error;
+    } else if (res.data?.length == 0) {
+        return EMPTY_STATE;
     } else {
-        const content = res.data?.page_content;
+        const content = res.data?.at(0)?.page_content;
         console.log(content);
         return content;
     };

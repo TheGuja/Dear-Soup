@@ -14,6 +14,19 @@ import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 
+function LoadContentPlugin({ content }: { content: string }) {
+    const [editor] = useLexicalComposerContext();
+
+    useEffect(() => {
+        if (content) {
+            const editorState = editor.parseEditorState(content);
+            editor.setEditorState(editorState);
+        }
+    }, [content, editor]);
+
+    return null;
+};
+
 export default function Journal({ savedCurrentUserData, savedOtherUserData, journalID }: { savedCurrentUserData?: string, savedOtherUserData?: string, journalID: string}) {
     // function onError(error: Error): void {
     //     console.error(error);
@@ -37,19 +50,33 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
 
         loadPageContent();
     }, [journalID, displayedDate]);
+    // function LoadContentPlugin({ content }: { content: string }) {
+    //     const [editor] = useLexicalComposerContext();
 
-    function LoadContentPlugin({ content }: { content: string }) {
-        const [editor] = useLexicalComposerContext();
+    //     useEffect(() => {
+    //         if (content) {
+    //             const editorState = editor.parseEditorState(content);
+    //             editor.setEditorState(editorState);
+    //         }
+    //     }, [content, editor]);
 
-        useEffect(() => {
-            if (content) {
-                const editorState = editor.parseEditorState(content);
-                editor.setEditorState(editorState);
-            }
-        }, [content, editor]);
+    //     return null;
+    // }
 
-        return null;
-    }
+    // function LoadContentPlugin({ content }: { content: string }) {
+    //     const [editor] = useLexicalComposerContext();
+    //     const prevRef = useRef<string | null>(null);
+
+    //     useEffect(() => {
+    //         if (!content || prevRef.current === content) return;
+    //         prevRef.current = content;
+    //         const editorState = editor.parseEditorState(content);
+    //         editor.setEditorState(editorState);
+    //         editor.focus();
+    //     }, [content, editor]);
+
+    //     return null;
+    // }
 
     const handleSave: () => Promise<void> = async () => {
         const sharedUser = sharedUserRef.current?.value;
