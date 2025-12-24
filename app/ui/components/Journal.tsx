@@ -39,44 +39,19 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     const sharedUserRef = useRef<HTMLInputElement | null>(null);
     const titleRef = useRef<HTMLInputElement>(null);
 
-    const [displayedContent, setDisplayedContent] = useState<string>(EMPTY_STATE);
+    const [currentDisplayedContent, setCurrentDisplayedContent] = useState<string>(EMPTY_STATE);
+    const [otherDisplayedContent, setOtherDisplayedContent] = useState<string>(EMPTY_STATE)
     const [displayedDate, setDisplayedDate] = useState<Date>(new Date());
 
     useEffect(() => {
         const loadPageContent: () => Promise<void> = async () => {
-            const loadedPageContent = await loadPage(journalID, displayedDate);
-            setDisplayedContent(loadedPageContent);
+            const [currentUserContent, otherUserContent] = await loadPage(journalID, displayedDate);
+            setCurrentDisplayedContent(currentUserContent);
+            setOtherDisplayedContent(otherUserContent);
         };
 
         loadPageContent();
     }, [journalID, displayedDate]);
-    // function LoadContentPlugin({ content }: { content: string }) {
-    //     const [editor] = useLexicalComposerContext();
-
-    //     useEffect(() => {
-    //         if (content) {
-    //             const editorState = editor.parseEditorState(content);
-    //             editor.setEditorState(editorState);
-    //         }
-    //     }, [content, editor]);
-
-    //     return null;
-    // }
-
-    // function LoadContentPlugin({ content }: { content: string }) {
-    //     const [editor] = useLexicalComposerContext();
-    //     const prevRef = useRef<string | null>(null);
-
-    //     useEffect(() => {
-    //         if (!content || prevRef.current === content) return;
-    //         prevRef.current = content;
-    //         const editorState = editor.parseEditorState(content);
-    //         editor.setEditorState(editorState);
-    //         editor.focus();
-    //     }, [content, editor]);
-
-    //     return null;
-    // }
 
     const handleSave: () => Promise<void> = async () => {
         const sharedUser = sharedUserRef.current?.value;
@@ -99,13 +74,13 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
 
     const initialConfigCurrentUser = {
         namespace: 'CurrentUser',
-        editorState: displayedContent,
+        editorState: EMPTY_STATE,
         onError: (error: Error) => console.error(error),
     };
 
     const initialConfigOtherUser = {
         namespace: 'OtherUser',
-        editorState: savedOtherUserData || EMPTY_STATE,
+        editorState: EMPTY_STATE,
         onError: (error: Error) => console.error(error),
     };
 
@@ -160,7 +135,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />
-                <LoadContentPlugin content={displayedContent}/>
+                <LoadContentPlugin content={currentDisplayedContent}/>
                 </LexicalComposer>
 
                 {/* other user */}
@@ -176,6 +151,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />
+                <LoadContentPlugin content={otherDisplayedContent}/>
                 </LexicalComposer>
                 <button onClick={() => {
                     setDisplayedDate(prevDate => {
