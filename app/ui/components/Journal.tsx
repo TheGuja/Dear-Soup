@@ -42,6 +42,8 @@ export default function Journal({ journalID }: { journalID: string}) {
     const [displayedDate, setDisplayedDate] = useState<Date>(new Date());
     const [displayedTitle, setDisplayedTitle] = useState<string>("Untitled Journal")
 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     useEffect(() => {
         const loadPageContent: () => Promise<void> = async () => {
             const [currentUserContent, otherUserContent] = await loadPage(journalID, displayedDate);
@@ -56,6 +58,7 @@ export default function Journal({ journalID }: { journalID: string}) {
         const loadTitle: () => Promise<void> = async () => {
             const title = await getTitle(journalID);
             setDisplayedTitle(title);
+            setIsLoading(false);
         };
 
         loadTitle();
@@ -104,7 +107,9 @@ export default function Journal({ journalID }: { journalID: string}) {
     };
     // const formattedDate = new Intl.DateTimeFormat('en-US', options).format(displayedDate);
 
-
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
     // idea is to have one side dedicated to one user and the other side dedicated to the other user
     return (
     <>
