@@ -11,12 +11,12 @@ export default function Page() {
             <form className="flex flex-col gap-4">
               <div className="flex flex-col">
                 <label htmlFor="email" className="text-xl">Email:</label>
-                <input id="email" className="border-2 border-white rounded-lg p-2 bg-transparent" required />
+                <input id="email" name="email" className="border-2 border-white rounded-lg p-2 bg-transparent" required />
               </div>
               
               <div className="flex flex-col">
                 <label htmlFor="password" className="text-xl">Password:</label>
-                <input id="password" type="password" className="border-2 border-white rounded-lg p-2 bg-transparent" required />
+                <input id="password" name="password" type="password" className="border-2 border-white rounded-lg p-2 bg-transparent" required />
               </div>
 
               <div className="flex gap-4 mt-4">
