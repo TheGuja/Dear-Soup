@@ -37,19 +37,19 @@ import { getCurrentUser } from '@/utils/utils';
 //     };
 // };
 
-export async function shareJournal(sharedUser: string, title: string, content: string): Promise<void> {
-    // Check handling of empty string for sharedUser, title, and content
-    const supabase = await createClient()
-    const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(supabase), supabase.from("users").select("id").eq("email", sharedUser).single()]);
+// export async function shareJournal(sharedUser: string, title: string, content: string): Promise<void> {
+//     // Check handling of empty string for sharedUser, title, and content
+//     const supabase = await createClient()
+//     const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(supabase), supabase.from("users").select("id").eq("email", sharedUser).single()]);
 
-    if (sharedUserID.error) {
-        console.error("Failed to find the user: ", sharedUserID.error);
-        throw sharedUserID.error;
-    } else {
-        const { error } = await supabase.from('journals').insert({ content: content, owner_id: currentUserID, other_id: sharedUserID.data.id, title: title});
+//     if (sharedUserID.error) {
+//         console.error("Failed to find the user: ", sharedUserID.error);
+//         throw sharedUserID.error;
+//     } else {
+//         const { error } = await supabase.from('journals').insert({ content: content, owner_id: currentUserID, other_id: sharedUserID.data.id, title: title});
 
-        if (error) {
-            throw error;
-        };
-    };
-}
+//         if (error) {
+//             throw error;
+//         };
+//     };
+// }

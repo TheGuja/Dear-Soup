@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { createJournal } from "@/utils/utils";
 import { getJournalEntries } from "@/utils/utils";
 import Link from "next/link";
-import { redirect } from "next/dist/server/api-utils";
 
 
 type Journal = {
