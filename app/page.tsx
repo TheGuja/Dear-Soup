@@ -1,8 +1,5 @@
 'use client'
 
-import Image from "next/image";
-import { useState } from "react";
-import Sidebar from "./ui/components/Sidebar";
 // import { createClient } from "@/utils/supabase/server";
 
 // export default function Home() {
@@ -15,11 +12,10 @@ import Sidebar from "./ui/components/Sidebar";
 //   )
 // }
 export default function Home() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
   
   return (
     <div className="min-h-screen">
-      <Sidebar />
       <section className="h-[90vh] flex items-center justify-center bg-stone-950 text-white">
         <h1 className="text-8xl font-bold text-center">Dear Soup</h1>
       </section>

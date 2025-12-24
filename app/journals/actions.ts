@@ -14,13 +14,3 @@ import { SupabaseClient } from "@supabase/supabase-js";
 //     const userID = getCurrentUser(supabase);
 //     console.log(userID);
 // }
-
-export async function createJournal(): Promise<void> {
-    const supabase = await createClient();
-    const currentUserID = await getCurrentUser(supabase);
-    const { error } = await supabase.from('journals').insert({ owner_id: currentUserID });
-
-    if (error) {
-        throw error;
-    }
-}

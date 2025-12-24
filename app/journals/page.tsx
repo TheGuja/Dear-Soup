@@ -1,9 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
-import { getCurrentUser } from "@/utils/utils";
-import { createJournal } from "./actions";
+'use client'
+
+import { useEffect, useState } from "react";
+import { createJournal } from "@/utils/utils";
+import { getJournalEntries } from "@/utils/utils";
 import Link from "next/link";
-import Sidebar from "../ui/components/Sidebar";
-import CreateJournal from "../ui/components/CreateJournal";
+import { redirect } from "next/dist/server/api-utils";
+
 
 type Journal = {
     journal_id: string,
@@ -13,28 +15,26 @@ type Journal = {
     title: string
 };
 
-export default async function Page() {
-    const supabase = await createClient();
-    // const data = await getJournalEntries();
-    // TODO: Create view for table later
-    const currentUserID = await getCurrentUser(supabase);
-    const res = await supabase.from("journals").select("*").or(`owner_id.eq.${currentUserID},other_id.eq.${currentUserID}`);
-    const data = res.data;
-    // console.log(data);
+export default function Page() {
+    const [journalEntries, setJournalEntries] = useState<Journal[]>([])
+    useEffect(() => {
+        const getJournalLinks: () => Promise<void> = async () => {
+            const data = await getJournalEntries();
+            setJournalEntries(data);
+        }
 
-    if (!data) {
-        throw Error;
-    }
+        getJournalLinks();
+    }, []);
 
     return (
         <div>
-            <Sidebar />
-            <CreateJournal onClick={createJournal} />
+            <button onClick={async () => {
+                await createJournal();
+            }}>
+                Create new Journal
+            </button>
             <ul>
-                {data.map((journal: Journal) => (
-                    // <li key={index}>
-                    //     {journal.title}
-                    // </li>
+                {journalEntries.map((journal: Journal) => (
                     <Link key={journal.title} href={`/journals/${journal.journal_id}`}>{journal.title}</Link>
                 ))}
             </ul>

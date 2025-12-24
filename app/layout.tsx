@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import '@/app/ui/global.css'
 import { cedarville_cursive } from "./ui/fonts";
+import Sidebar from "./ui/components/Sidebar";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -24,7 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="w-full h-full">
       <body className={`w-full h-full ${cedarville_cursive.className} antialiased`}>
-        {children}
+        <Sidebar />
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   );

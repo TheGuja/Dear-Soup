@@ -3,6 +3,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { createClient } from "./supabase/server";
 import { format } from "path";
+import { redirect } from "next/navigation";
 
 export async function getCurrentUser(supabase: SupabaseClient) {
     const { data: {user}, error } = await supabase.auth.getUser();
@@ -78,3 +79,41 @@ export async function getTitle(journalID: string): Promise<string> {
 
     return title.data.title;
 };
+
+
+type Journal = {
+    journal_id: string,
+    content: string,
+    owner_id: string,
+    other_id: string,
+    title: string
+};
+
+export async function createJournal(): Promise<void> {
+    const supabase = await createClient();
+    const currentUserID = await getCurrentUser(supabase);
+    const res = await supabase.from('journals').insert({ owner_id: currentUserID }).select();
+
+    if (res.error) {
+        throw res.error;
+    }
+
+    const journalID = res.data[0].journal_id
+    redirect(`/journals/${journalID}`);
+
+};
+
+export async function getJournalEntries(): Promise<Journal[]> {
+    const supabase = await createClient();
+    const currentUserID = await getCurrentUser(supabase);
+    const res = await supabase.from("journals").select("*").or(`owner_id.eq.${currentUserID},other_id.eq.${currentUserID}`);
+
+    if (res.error) {
+        throw res.error;
+    }
+
+    const data = res.data;
+
+    return data;
+
+}
