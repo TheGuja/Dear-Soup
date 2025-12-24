@@ -1,7 +1,6 @@
 'use client'
 
-import { shareJournal } from '@/app/create/actions';
-import { saveJournal, savePage, loadPage } from '@/utils/utils';
+import { saveJournal, savePage, loadPage, getTitle } from '@/utils/utils';
 import { useState, useRef, useEffect } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -27,14 +26,13 @@ function LoadContentPlugin({ content }: { content: string }) {
     return null;
 };
 
-export default function Journal({ savedCurrentUserData, savedOtherUserData, journalID }: { savedCurrentUserData?: string, savedOtherUserData?: string, journalID: string}) {
+export default function Journal({ journalID }: { journalID: string}) {
     // function onError(error: Error): void {
     //     console.error(error);
     // }
 
     const EMPTY_STATE = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
-    // Check the text, setText to see if able to use this to load page content
     const [text, setText] = useState<string>("");
     const sharedUserRef = useRef<HTMLInputElement | null>(null);
     const titleRef = useRef<HTMLInputElement>(null);
@@ -42,6 +40,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
     const [currentDisplayedContent, setCurrentDisplayedContent] = useState<string>(EMPTY_STATE);
     const [otherDisplayedContent, setOtherDisplayedContent] = useState<string>(EMPTY_STATE)
     const [displayedDate, setDisplayedDate] = useState<Date>(new Date());
+    const [displayedTitle, setDisplayedTitle] = useState<string>("Untitled Journal")
 
     useEffect(() => {
         const loadPageContent: () => Promise<void> = async () => {
@@ -53,10 +52,19 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
         loadPageContent();
     }, [journalID, displayedDate]);
 
+    useEffect(() => {
+        const loadTitle: () => Promise<void> = async () => {
+            const title = await getTitle(journalID);
+            setDisplayedTitle(title);
+        };
+
+        loadTitle();
+    }, [journalID]);
+
     const handleSave: () => Promise<void> = async () => {
         const sharedUser = sharedUserRef.current?.value;
         const title = titleRef.current?.value;
-        const content = text;
+        // const content = text;
 
         // Implement checking for empty values later
         if ( !sharedUser || !title) {
@@ -104,13 +112,14 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
         <div id='title'>
             <label htmlFor="share">Share With:</label>
             <input id="share" name="share" ref={sharedUserRef} type="email" />
-            <label htmlFor="title">Title:</label>
-            <input id="title" name="title" ref={titleRef} type="text" />
+            {/* <label htmlFor="title">Title:</label> */}
+            {/* <input id="title" name="title" ref={titleRef} type="text" defaultValue={displayedTitle}/> */}
             {/* <button onClick={handleSave}>Share Journal</button> */}
         </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div>
                 <h1>{new Intl.DateTimeFormat('en-US', options).format(displayedDate)}</h1>
+                <input id="title" name="title" ref={titleRef} type="text" defaultValue={displayedTitle}/>
             </div>
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
                 <button onClick={() => {
@@ -142,8 +151,7 @@ export default function Journal({ savedCurrentUserData, savedOtherUserData, jour
                 <LexicalComposer initialConfig={initialConfigOtherUser}>
                 <RichTextPlugin
                     contentEditable={
-                    // <ContentEditable className='bg-black text-white w-[100%] h-[100%]'/>
-                    <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%]'/>
+                        <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%]'/>
                     }
                     ErrorBoundary={LexicalErrorBoundary}
                 />

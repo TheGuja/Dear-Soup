@@ -10,7 +10,7 @@ export async function getCurrentUser(supabase: SupabaseClient) {
     if (error) {
         throw error;
     }
-    
+
     return user?.id;
 };
 
@@ -66,4 +66,15 @@ export async function loadPage(journalID: string, date: Date): Promise<string[]>
     };
 
     return toReturn;
+};
+
+export async function getTitle(journalID: string): Promise<string> {
+    const supabase = await createClient();
+    const title = await supabase.from('journals').select('title').eq('journal_id', journalID).single()
+
+    if (title.error) {
+        throw title.error;
+    };
+
+    return title.data.title;
 };
