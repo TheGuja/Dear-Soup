@@ -1,6 +1,6 @@
 'use client'
 
-import { saveJournal, savePage, loadPage, getTitle, saveTitle } from '@/utils/utils';
+import { savePage, loadPage, getTitle, saveTitle } from '@/utils/utils';
 import { useState, useRef, useEffect } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -12,7 +12,6 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { title } from 'process';
 
 function LoadContentPlugin({ content }: { content: string }) {
     const [editor] = useLexicalComposerContext();
@@ -28,10 +27,6 @@ function LoadContentPlugin({ content }: { content: string }) {
 };
 
 export default function Journal({ journalID }: { journalID: string}) {
-    // function onError(error: Error): void {
-    //     console.error(error);
-    // }
-
     const EMPTY_STATE = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
     const [text, setText] = useState<string>("");
@@ -63,21 +58,6 @@ export default function Journal({ journalID }: { journalID: string}) {
 
         loadTitle();
     }, [journalID]);
-
-    // const handleSave: () => Promise<void> = async () => {
-    //     const sharedUser = sharedUserRef.current?.value;
-    //     const title = titleRef.current?.value;
-    //     // const content = text;
-
-    //     // Implement checking for empty values later
-    //     if ( !sharedUser || !title) {
-    //         alert("Please fill out shared user field!")
-    //         return;
-    //     }
-
-    //     // console.log(data);
-    //     await saveJournal(sharedUser, title, journalID);
-    // };
 
     const handlePageSave: () => Promise<void> = async () => {
         const title = titleRef.current?.value;
@@ -111,7 +91,6 @@ export default function Journal({ journalID }: { journalID: string}) {
         month: 'long',
         day: 'numeric',
     };
-    // const formattedDate = new Intl.DateTimeFormat('en-US', options).format(displayedDate);
 
     if (isLoading) {
         return <div>Loading...</div>
@@ -137,12 +116,10 @@ export default function Journal({ journalID }: { journalID: string}) {
                 <LexicalComposer initialConfig={initialConfigCurrentUser}>
                 <RichTextPlugin
                     contentEditable={
-                    // <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%] bg-[repeating-linear-gradient(white,_white_12px,_black_12px,_black 24px)]'/>
                     <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%]' />
                     }
                     ErrorBoundary={LexicalErrorBoundary}
                 />
-                {/* <EditorRefPlugin editorRef={editorRef}/> */}
                 <OnChangePlugin onChange={(editorState: EditorState) => {setText(JSON.stringify(editorState.toJSON()))}} />
                 <HistoryPlugin />
                 <AutoFocusPlugin />
@@ -173,9 +150,6 @@ export default function Journal({ journalID }: { journalID: string}) {
                     <h1>Next Page</h1>
                 </button>
             </div>
-            {/* <button className='mt-[1%] bg-stone-950 text-white' onClick={handleSave}>
-                Save Journal
-            </button> */}
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
                 Save Page Content
             </button>

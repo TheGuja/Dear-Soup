@@ -14,25 +14,6 @@ export async function getCurrentUser(supabase: SupabaseClient) {
     return user?.id;
 };
 
-export async function saveJournal(sharedUser: string, title: string, journalID: string): Promise<void> {
-    // Check handling of empty string for sharedUser, title, and content
-    const supabase = await createClient()
-    // const [currentUserID, sharedUserID] = await Promise.all([getCurrentUser(supabase), supabase.from("users").select("id").eq("email", sharedUser).single()]);
-    const sharedUserID = await supabase.from('users').select('id').eq('email', sharedUser).single()
-
-    if (sharedUserID.error) {
-        console.error("Failed to find the user: ", sharedUserID.error);
-        throw sharedUserID.error;
-    } else {
-        // const { error } = await supabase.from('journals').insert({ content: content, owner_id: currentUserID, other_id: sharedUserID.data.id, title: title});
-        const { error } = await supabase.from('journals').update({ other_id: sharedUserID.data.id, title: title}).eq('journal_id', journalID)
-
-        if (error) {
-            throw error;
-        };
-    };
-}
-
 export async function shareJournal(journalID: string, sharedUser: string): Promise<void> {
     // Check handling of empty string for sharedUser, title, and content
     const supabase = await createClient()
@@ -50,7 +31,6 @@ export async function shareJournal(journalID: string, sharedUser: string): Promi
     };
 }
 
-// TODO: split share and save functionality apart
 export async function savePage(journalID: string, date: Date, content: string): Promise<void> {
     // Check handling of empty string for sharedUser, title, and content
     const supabase = await createClient();
@@ -63,7 +43,6 @@ export async function savePage(journalID: string, date: Date, content: string): 
 };
 
 export async function saveTitle(journalID: string, title: string): Promise<void> {
-    // Check handling of empty string for sharedUser, title, and content
     const supabase = await createClient();
     const { error } = await supabase.from('journals').update({title: title}).eq("journal_id", journalID);
 
