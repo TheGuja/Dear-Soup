@@ -34,15 +34,15 @@ export default function Sidebar() {
                 className={`fixed top-0 left-0 h-screen w-[25%] bg-stone-900 text-white transform transition-transform
                 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
             >
-            <nav className="">
-                <ul>
-                    {navLinks.map((link: NavLink) => (
-                        <li key={link.href} className="m-[5%]">
-                            <Link href={link.href} className="text-xl hover:text-stone-400">{link.name}</Link>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+                <nav className="">
+                    <ul>
+                        {navLinks.map((link: NavLink) => (
+                            <li key={link.href} className="m-[5%]">
+                                <Link href={link.href} className="text-xl hover:text-stone-400">{link.name}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
             </aside>
         </>
     );

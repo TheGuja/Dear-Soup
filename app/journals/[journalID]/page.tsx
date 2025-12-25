@@ -1,7 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
+// import { createClient } from "@/utils/supabase/server";
 // import { notFound } from "next/navigation";
 // import { use } from "react"
-import getJournalContent from "./actions";
+// import getJournalContent from "./actions";
+import ShareDialogue from "@/app/ui/components/ShareDialogue";
 import Journal from "@/app/ui/components/Journal";
 
 // interface JournalProps {
@@ -12,7 +13,10 @@ export default async function Page({ params }: {params: Promise<{ journalID: str
     const { journalID } = await params;
 
     return (
-        <Journal journalID={journalID}/>
+        <div>
+            <ShareDialogue journalID={journalID}/>
+            <Journal journalID={journalID}/>
+        </div>
     );
 }
 

@@ -34,7 +34,6 @@ export default function Journal({ journalID }: { journalID: string}) {
     const EMPTY_STATE = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
     const [text, setText] = useState<string>("");
-    const sharedUserRef = useRef<HTMLInputElement | null>(null);
     const titleRef = useRef<HTMLInputElement>(null);
 
     const [currentDisplayedContent, setCurrentDisplayedContent] = useState<string>(EMPTY_STATE);
@@ -64,20 +63,20 @@ export default function Journal({ journalID }: { journalID: string}) {
         loadTitle();
     }, [journalID]);
 
-    const handleSave: () => Promise<void> = async () => {
-        const sharedUser = sharedUserRef.current?.value;
-        const title = titleRef.current?.value;
-        // const content = text;
+    // const handleSave: () => Promise<void> = async () => {
+    //     const sharedUser = sharedUserRef.current?.value;
+    //     const title = titleRef.current?.value;
+    //     // const content = text;
 
-        // Implement checking for empty values later
-        if ( !sharedUser || !title) {
-            alert("Please fill out shared user field!")
-            return;
-        }
+    //     // Implement checking for empty values later
+    //     if ( !sharedUser || !title) {
+    //         alert("Please fill out shared user field!")
+    //         return;
+    //     }
 
-        // console.log(data);
-        await saveJournal(sharedUser, title, journalID);
-    };
+    //     // console.log(data);
+    //     await saveJournal(sharedUser, title, journalID);
+    // };
 
     const handlePageSave: () => Promise<void> = async () => {
         await savePage(journalID, displayedDate, text)
@@ -113,14 +112,6 @@ export default function Journal({ journalID }: { journalID: string}) {
     // idea is to have one side dedicated to one user and the other side dedicated to the other user
     return (
     <>
-        <div id='journal'>
-        <div id='title'>
-            <label htmlFor="share">Share With:</label>
-            <input id="share" name="share" ref={sharedUserRef} type="email" />
-            {/* <label htmlFor="title">Title:</label> */}
-            {/* <input id="title" name="title" ref={titleRef} type="text" defaultValue={displayedTitle}/> */}
-            {/* <button onClick={handleSave}>Share Journal</button> */}
-        </div>
         <div className="h-screen flex flex-col items-center justify center">
             <div>
                 <h1>{new Intl.DateTimeFormat('en-US', options).format(displayedDate)}</h1>
@@ -160,7 +151,6 @@ export default function Journal({ journalID }: { journalID: string}) {
                     }
                     ErrorBoundary={LexicalErrorBoundary}
                 />
-                {/* <OnChangePlugin onChange={(editorState: EditorState) => {setText(JSON.stringify(editorState.toJSON()))}}/> */}
                 <HistoryPlugin />
                 <AutoFocusPlugin />
                 <TabIndentationPlugin />
@@ -176,16 +166,12 @@ export default function Journal({ journalID }: { journalID: string}) {
                     <h1>Next Page</h1>
                 </button>
             </div>
-            <button className='mt-[1%] bg-stone-950 text-white' onClick={handleSave}>
+            {/* <button className='mt-[1%] bg-stone-950 text-white' onClick={handleSave}>
                 Save Journal
-            </button>
+            </button> */}
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
                 Save Page Content
             </button>
-            {/* <button className='mt-[1%] bg-stone-950 text-white' onClick={loadPageContent}>
-                Load Page Content
-            </button> */}
-        </div>
         </div>
     </>
     );
