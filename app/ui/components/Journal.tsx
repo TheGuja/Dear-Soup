@@ -1,6 +1,6 @@
 'use client'
 
-import { saveJournal, savePage, loadPage, getTitle } from '@/utils/utils';
+import { saveJournal, savePage, loadPage, getTitle, saveTitle } from '@/utils/utils';
 import { useState, useRef, useEffect } from 'react';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
@@ -12,6 +12,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { EditorState } from 'lexical';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { title } from 'process';
 
 function LoadContentPlugin({ content }: { content: string }) {
     const [editor] = useLexicalComposerContext();
@@ -79,8 +80,14 @@ export default function Journal({ journalID }: { journalID: string}) {
     // };
 
     const handlePageSave: () => Promise<void> = async () => {
-        await savePage(journalID, displayedDate, text)
-    }
+        const title = titleRef.current?.value;
+
+        if (!title) {
+            Promise.all([savePage(journalID, displayedDate, text), saveTitle(journalID, "Untitled Journal")])
+        } else {
+            Promise.all([savePage(journalID, displayedDate, text), saveTitle(journalID, title)])
+        }
+    };
 
     const initialConfigCurrentUser = {
         namespace: 'CurrentUser',

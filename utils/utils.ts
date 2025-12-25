@@ -62,6 +62,16 @@ export async function savePage(journalID: string, date: Date, content: string): 
     };
 };
 
+export async function saveTitle(journalID: string, title: string): Promise<void> {
+    // Check handling of empty string for sharedUser, title, and content
+    const supabase = await createClient();
+    const { error } = await supabase.from('journals').update({title: title}).eq("journal_id", journalID);
+
+    if (error) {
+        throw error;
+    };
+};
+
 export async function loadPage(journalID: string, date: Date): Promise<string[]> {
     const supabase = await createClient();
     const EMPTY_STATE = '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
