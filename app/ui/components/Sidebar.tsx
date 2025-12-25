@@ -12,7 +12,7 @@ export default function Sidebar() {
     const navLinks: NavLink[] = [
         { name: 'Home', href: '/'},
         { name: 'Journals', href: '/journals'},
-        { name: 'Create', href: '/create'},
+        // { name: 'Create', href: '/create'},
     ];
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
