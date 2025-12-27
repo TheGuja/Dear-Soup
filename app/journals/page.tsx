@@ -46,10 +46,10 @@ export default function Page() {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-blue-500 drop-shadow-sm" />
                     <path d="M12 5V19" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-blue-500 drop-shadow-sm" />
-                    <path d="M12 5V19" stroke="#78716C" strokeWidth="3" strokeLinecap="round" /> {/* Red */}
-                    <path d="M5 12H19" stroke="#78716C" strokeWidth="3" strokeLinecap="round" /> {/* Green */}
-                    <path d="M5 12H12" stroke="#78716C" strokeWidth="3" strokeLinecap="round" /> {/* Yellow overlay */}
-                    <path d="M12 5V12" stroke="#78716C" strokeWidth="3" strokeLinecap="round" /> {/* Blue overlay */}
+                    <path d="M12 5V19" stroke="#78716C" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M5 12H19" stroke="#78716C" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M5 12H12" stroke="#78716C" strokeWidth="3" strokeLinecap="round" />
+                    <path d="M12 5V12" stroke="#78716C" strokeWidth="3" strokeLinecap="round" />
                 </svg>
 
                 <span className="font-medium text-sm tracking-wide">Create new Journal</span>
