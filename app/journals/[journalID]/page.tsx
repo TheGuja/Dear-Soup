@@ -4,6 +4,7 @@
 // import getJournalContent from "./actions";
 import ShareDialogue from "@/app/ui/components/ShareDialogue";
 import Journal from "@/app/ui/components/Journal";
+import DSBanner from "@/app/ui/components/DSBanner";
 
 // interface JournalProps {
 //     params: { journalID: string};
@@ -13,7 +14,8 @@ export default async function Page({ params }: {params: Promise<{ journalID: str
     const { journalID } = await params;
 
     return (
-        <div>
+        <div className="min-h-screen">
+            <DSBanner />
             <ShareDialogue journalID={journalID}/>
             <Journal journalID={journalID}/>
         </div>
