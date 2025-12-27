@@ -47,7 +47,7 @@ export default function Sidebar() {
                         <li className="mt-auto mb-[10%] ml-[5%]"> 
                             <button 
                                 className="text-xl hover:text-stone-400 cursor-pointer" 
-                                onClick={async () => {logout()}}
+                                onClick={async () => {await logout()}}
                             >
                                 Logout
                             </button>

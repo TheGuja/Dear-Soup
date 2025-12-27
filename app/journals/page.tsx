@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createJournal } from "@/utils/utils";
 import { getJournalEntries } from "@/utils/utils";
+import DSBanner from "../ui/components/DSBanner";
 import Link from "next/link";
 
 
@@ -26,7 +27,8 @@ export default function Page() {
     }, []);
 
     return (
-        <div>
+        <div className="min-h-screen">
+            <DSBanner />
             <button className="cursor-pointer" onClick={async () => {
                 await createJournal();
             }}>
