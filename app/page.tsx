@@ -1,19 +1,6 @@
 'use client'
 
-// import { createClient } from "@/utils/supabase/server";
-
-// export default function Home() {
-//   return (
-//       <div className="h-screen flex items-center justify-center bg-stone-950">
-//         <h1 className="text-8xl font-bold text-center text-white">
-//           Dear Soup
-//         </h1>
-//       </div>
-//   )
-// }
-export default function Home() {
-  // const [isOpen, setIsOpen] = useState<boolean>(false);
-  
+export default function Home() {  
   return (
     <div className="min-h-screen">
       <section className="h-[70vh] flex items-center justify-center bg-stone-950 text-white">

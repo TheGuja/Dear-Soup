@@ -4,11 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { logout } from "@/app/login/actions";
 
-type NavLink = {
-    name: string;
-    href: string;
-}
-
 export default function Sidebar() {
     const navLinks: NavLink[] = [
         { name: 'Home', href: '/'},
