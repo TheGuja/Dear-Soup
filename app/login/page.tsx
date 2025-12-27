@@ -20,8 +20,8 @@ export default function Page() {
               </div>
 
               <div className="flex gap-4 mt-4">
-                <button formAction={login} className="border-2 border-white rounded-lg px-4 py-2 flex-1">Log In</button>
-                <button formAction={signup} className="border-2 border-white rounded-lg px-4 py-2 flex-1">Sign Up</button>
+                <button formAction={login} className="border-2 border-white rounded-lg px-4 py-2 flex-1 cursor-pointer">Log In</button>
+                <button formAction={signup} className="border-2 border-white rounded-lg px-4 py-2 flex-1 cursor-pointer">Sign Up</button>
               </div>
             </form>
           </section>

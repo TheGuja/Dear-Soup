@@ -27,7 +27,7 @@ export default function Page() {
 
     return (
         <div>
-            <button onClick={async () => {
+            <button className="cursor-pointer" onClick={async () => {
                 await createJournal();
             }}>
                 Create new Journal
