@@ -1,47 +1,41 @@
 'use client'
 
-import { useState } from "react"
 import { redirect } from "next/navigation"
 
-// export default function JournalIcon({ journal }: { journal: Journal}) {
-//     const [isHighlighted, setIsHighlighted] = useState<boolean>(false);
-
-//     return (
-//         <button className={`border mr-4 ${isHighlighted ? "bg-stone-200": "bg-transparent"}`} onClick={() => setIsHighlighted(!isHighlighted)} onDoubleClick={() => redirect(`/journals/${journal.journal_id}`)}>{journal.title}</button>
-//     )
-// }
-
 export default function JournalIcon({ journal }: { journal: Journal }) {
-  const [isSelected, setIsSelected] = useState<boolean>(false);
 
   return (
     <button
       type="button"
-      // 1. Container Styles
       className={`
-        group
-        relative flex flex-col
-        w-60 h-52
-        rounded-2xl           /* Modern Drive uses very round corners */
-        border
-        transition-all duration-100 ease-in-out
+        group relative flex flex-row items-center justify-start gap-4
+        w-60 h-auto p-4
+        m-4
+        rounded-2xl
+        
+        border border-stone-200 bg-white
+        transition-all duration-200 ease-in-out
         cursor-pointer
         outline-none
         
-        /* 2. Conditional Styling (Selection State) */
-        ${isSelected
-          ? "bg-blue-100/30 border-blue-600 shadow-[0_0_0_1px_rgba(37,99,235,1)]" // Blue wash + Blue Border + Blue Ring
-          : "bg-white border-gray-200 hover:bg-gray-50 hover:shadow-sm"
-        }
+        hover:bg-stone-100 
+        hover:border-stone-400 
+        hover:shadow-[0_0_0_1px_rgba(168,162,158,1)] /* Stone-400 equivalent for ring */
       `}
-      onClick={() => setIsSelected(!isSelected)}
       onDoubleClick={() => redirect(`/journals/${journal.journal_id}`)}
     >
 
+      <div className="flex-shrink-0">
+         <div className="h-12 w-12 bg-stone-100 rounded-full flex items-center justify-center text-stone-500 group-hover:bg-stone-200 group-hover:text-stone-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+            </svg>
+         </div>
+      </div>
 
-    <span className="text-sm font-medium text-gray-700 truncate w-full text-left">
+      <span className="text-sm font-medium text-stone-600 truncate w-full text-left select-none group-hover:text-stone-900">
         {journal.title}
-    </span>
+      </span>
 
     </button>
   );

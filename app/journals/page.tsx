@@ -54,7 +54,7 @@ export default function Page() {
 
                 <span className="font-medium text-sm tracking-wide">Create new Journal</span>
             </button>
-            <div className="m-4">
+            <div className="flex flex-row flex-wrap">
                 {journalEntries.map((journal: Journal) => (
                     <JournalIcon key={journal.journal_id} journal={journal}/>
                 ))}
