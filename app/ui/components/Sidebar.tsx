@@ -22,11 +22,11 @@ export default function Sidebar() {
             }
             <div
                 onClick={() => setIsOpen(false)}
-                className={`fixed inset-0 bg-black/50 transition-opacity
+                className={`fixed inset-0 bg-black/50 transition-opacity z-40
                 ${isOpen ? 'opacity-100 visible' : 'pointer-events-none opacity-0 invisible'}`}
             />
             <aside
-                className={`fixed top-0 left-0 h-screen w-[25%] bg-stone-900 text-white transform transition-transform
+                className={`fixed top-0 left-0 h-screen w-[25%] bg-stone-900 text-white transform transition-transform z-50
                 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
             >
                 <nav>
