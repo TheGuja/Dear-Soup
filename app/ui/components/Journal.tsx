@@ -151,7 +151,7 @@ export default function Journal({ journalID }: { journalID: string}) {
                 </button>
             </div>
             <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
-                Save Page Content
+                Save
             </button>
         </div>
     </>
