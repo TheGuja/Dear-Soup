@@ -37,18 +37,11 @@ export default function Journal({ journalID }: { journalID: string}) {
     const [displayedDate, setDisplayedDate] = useState<Date>(new Date());
     const [displayedTitle, setDisplayedTitle] = useState<string>("Untitled Journal")
 
+    const todayDate = new Date()
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const loadPageContent: () => Promise<void> = async () => {
-            const [currentUserContent, otherUserContent] = await loadPage(journalID, displayedDate);
-            setCurrentDisplayedContent(currentUserContent);
-            setOtherDisplayedContent(otherUserContent);
-        };
 
-        loadPageContent();
-    }, [journalID, displayedDate]);
-
+    // Fetch title of journal
     useEffect(() => {
         const loadTitle: () => Promise<void> = async () => {
             const title = await getTitle(journalID);
@@ -59,6 +52,23 @@ export default function Journal({ journalID }: { journalID: string}) {
         loadTitle();
     }, [journalID]);
 
+    // Fetch journal contents
+    useEffect(() => {
+        const loadPageContent: () => Promise<void> = async () => {
+            const [currentUserContent, otherUserContent] = await loadPage(journalID, displayedDate);
+            setCurrentDisplayedContent(currentUserContent);
+            
+            if (displayedDate < todayDate) {
+                setOtherDisplayedContent(otherUserContent);
+            } else {
+                setOtherDisplayedContent(EMPTY_STATE)
+            }
+        };
+
+        loadPageContent();
+    }, [journalID, displayedDate]);
+
+    // Save journal contents
     const handlePageSave: () => Promise<void> = async () => {
         const title = titleRef.current?.value;
 
@@ -81,10 +91,7 @@ export default function Journal({ journalID }: { journalID: string}) {
         onError: (error: Error) => console.error(error),
     };
 
-    // Check to see if it gets current date for current timezone
-    // const todayDate = new Date();
-    // const displayedDate = new Date(todayDate);
-    // todayDate.setDate(todayDate.getDate() + 10)
+
     const options: Intl.DateTimeFormatOptions = {
         weekday: 'short',
         year: 'numeric',
@@ -92,10 +99,11 @@ export default function Journal({ journalID }: { journalID: string}) {
         day: 'numeric',
     };
 
+    // Loading functionality
     if (isLoading) {
         return <div>Loading...</div>
     }
-    // idea is to have one side dedicated to one user and the other side dedicated to the other user
+
     return (
     <>
         <div className="h-screen flex flex-col items-center justify center">
@@ -106,9 +114,9 @@ export default function Journal({ journalID }: { journalID: string}) {
             <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
                 <button onClick={() => {
                     setDisplayedDate(prevDate => {
-                        const nextDate = new Date(prevDate); // Clone the previous date
-                        nextDate.setDate(prevDate.getDate() - 1); // Mutate the clone, not the state
-                        return nextDate; // Return the new object
+                        const nextDate = new Date(prevDate);
+                        nextDate.setDate(prevDate.getDate() - 1);
+                        return nextDate;
                     });
                 }}>
                     <h1>Previous Page</h1>
