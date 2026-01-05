@@ -8,9 +8,11 @@ export default async function Page({ params }: {params: Promise<{ journalID: str
     return (
         <div className="min-h-screen">
             <DSBanner />
-            <ShareDialogue journalID={journalID}/>
-            <Journal journalID={journalID}/>
+            <div className="max-w-6xl mx-auto">
+                <ShareDialogue journalID={journalID}/>
+                <Journal journalID={journalID}/>
+            </div>
         </div>
     );
-}
+} 
 

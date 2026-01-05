@@ -49,7 +49,7 @@ export default function CustomJournal({ className = "" } : Styles) {
       <RichTextPlugin
         contentEditable={
           // <ContentEditable className='bg-black text-white w-[100%] h-[100%]'/>
-          <ContentEditable className={className}/>
+          <ContentEditable className={`${className || 'bg-stone-950 text-white h-full w-full p-4 rounded-lg shadow-inner overflow-auto focus:outline-none'}`}/>
         }
         ErrorBoundary={LexicalErrorBoundary}
       />

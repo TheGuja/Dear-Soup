@@ -111,20 +111,20 @@ export default function Journal({ journalID }: { journalID: string}) {
                 <h1>{new Intl.DateTimeFormat('en-US', options).format(displayedDate)}</h1>
                 <input id="title" name="title" ref={titleRef} type="text" defaultValue={displayedTitle}/>
             </div>
-            <div className='flex space-x-4 h-[70%] w-[80%] mt-[2%]'>
-                <button onClick={() => {
+            <div className='flex items-start gap-4 h-[70vh] w-full max-w-6xl mt-6'>
+                <button className="px-3 py-2 rounded-md bg-gray-100 text-gray-800 hover:bg-gray-200 transition" onClick={() => {
                     setDisplayedDate(prevDate => {
                         const nextDate = new Date(prevDate);
                         nextDate.setDate(prevDate.getDate() - 1);
                         return nextDate;
                     });
                 }}>
-                    <h1>Previous Page</h1>
+                    <h1 className="text-sm font-medium">Previous Page</h1>
                 </button>
                 <LexicalComposer initialConfig={initialConfigCurrentUser}>
                 <RichTextPlugin
                     contentEditable={
-                    <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%]' />
+                    <ContentEditable className='bg-stone-950 text-white h-full w-full p-4 rounded-lg shadow-inner overflow-auto focus:outline-none' />
                     }
                     ErrorBoundary={LexicalErrorBoundary}
                 />
@@ -139,7 +139,7 @@ export default function Journal({ journalID }: { journalID: string}) {
                 <LexicalComposer initialConfig={initialConfigOtherUser}>
                 <RichTextPlugin
                     contentEditable={
-                        <ContentEditable className='bg-stone-950 text-white h-[100%] w-[100%] p-[1%]'/>
+                        <ContentEditable className='bg-stone-950 text-white h-full w-full p-4 rounded-lg shadow-inner overflow-auto focus:outline-none'/>
                     }
                     ErrorBoundary={LexicalErrorBoundary}
                 />
@@ -148,17 +148,17 @@ export default function Journal({ journalID }: { journalID: string}) {
                 <TabIndentationPlugin />
                 <LoadContentPlugin content={otherDisplayedContent}/>
                 </LexicalComposer>
-                <button onClick={() => {
+                <button className="px-3 py-2 rounded-md bg-gray-100 text-gray-800 hover:bg-gray-200 transition" onClick={() => {
                     setDisplayedDate(prevDate => {
                         const nextDate = new Date(prevDate); // Clone the previous date
                         nextDate.setDate(prevDate.getDate() + 1); // Mutate the clone, not the state
                         return nextDate; // Return the new object
                     });
                 }}>
-                    <h1>Next Page</h1>
+                    <h1 className="text-sm font-medium">Next Page</h1>
                 </button>
             </div>
-            <button className='mt-[1%] bg-stone-950 text-white' onClick={handlePageSave}>
+            <button className='mt-6 px-4 py-2 rounded-md bg-stone-950 text-white hover:opacity-95 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400' onClick={handlePageSave}>
                 Save
             </button>
         </div>

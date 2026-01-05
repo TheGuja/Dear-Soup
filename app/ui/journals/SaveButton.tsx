@@ -17,7 +17,7 @@ export default function SaveButton({ className = ""}: Styles) {
 
     return (
         <div>
-            <button onClick={save} className={className}>
+            <button onClick={save} className={`inline-flex items-center px-3 py-1.5 rounded-md bg-stone-950 text-white hover:opacity-95 transition shadow-sm ${className}`}>
                 Save
             </button>
         </div>

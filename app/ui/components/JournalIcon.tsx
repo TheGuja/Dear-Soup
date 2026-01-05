@@ -8,19 +8,14 @@ export default function JournalIcon({ journal }: { journal: Journal }) {
     <button
       type="button"
       className={`
-        group relative flex flex-row items-center justify-start gap-4
-        w-60 h-auto p-4
+        group relative flex items-center gap-4
+        w-full max-w-xs p-4
         m-4
         rounded-2xl
-        
         border border-stone-200 bg-white
         transition-all duration-200 ease-in-out
-        cursor-pointer
-        outline-none
-        
-        hover:bg-stone-100 
-        hover:border-stone-400 
-        hover:shadow-[0_0_0_1px_rgba(168,162,158,1)] /* Stone-400 equivalent for ring */
+        cursor-pointer outline-none
+        hover:bg-stone-100 hover:border-stone-400 hover:shadow-md
       `}
       onDoubleClick={() => redirect(`/journals/${journal.journal_id}`)}
     >
